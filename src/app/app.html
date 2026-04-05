@@ -1,0 +1,213 @@
+<div class="app-shell" [class.app-dark]="!isLightMode" [class.app-light]="isLightMode">
+  <button class="theme-toggle" type="button" (click)="toggleTheme()" [attr.aria-label]="isLightMode ? 'Switch to dark mode' : 'Switch to light mode'">
+    <i class="pi pi-lightbulb"></i>
+  </button>
+  <section class="hero-layout">
+    <section class="hero surface-panel">
+      <div class="hero__content">
+        <div class="hero__headline">
+          <p class="eyebrow">Senior engineer profile</p>
+          <h1>{{ profile.name }}</h1>
+          <h2>{{ profile.title }}</h2>
+          <p class="hero__intro">{{ profile.intro }}</p>
+        </div>
+
+        <div class="hero__actions">
+          <a [href]="contacts[0].href">
+            <p-button label="Contact by email" icon="pi pi-envelope" severity="contrast"></p-button>
+          </a>
+        </div>
+
+        <div class="hero__meta">
+          <span><i class="pi pi-map-marker"></i> {{ profile.location }}</span>
+          <span><i class="pi pi-briefcase"></i> {{ profile.availability }}</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="hero__panel glass-panel">
+      <p-card>
+        <ng-template pTemplate="header">
+          <div class="panel-header">
+            <span class="panel-header__dot"></span>
+            <span>Profile snapshot</span>
+          </div>
+        </ng-template>
+
+        <div class="snapshot-grid">
+          @for (stat of stats; track stat.label) {
+            <div class="snapshot-item">
+              <strong>{{ stat.value }}</strong>
+              <span>{{ stat.label }}</span>
+            </div>
+          }
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="contact-list">
+          @for (contact of contacts; track contact.label) {
+            <a [href]="contact.href" target="_blank" rel="noopener">
+              <i [class]="contact.icon"></i>
+              <span>{{ contact.value }}</span>
+            </a>
+          }
+        </div>
+      </p-card>
+    </aside>
+  </section>
+
+  <section class="top-band">
+    <p-card class="section-card section-card--wide">
+      <div class="section-heading compact-heading">
+        <div>
+          <p class="section-label">Core stack</p>
+          <h3>Main technologies</h3>
+        </div>
+      </div>
+
+      <div class="chip-grid">
+        @for (item of focusAreas; track item) {
+          <p-chip [label]="item"></p-chip>
+        }
+      </div>
+    </p-card>
+  </section>
+
+  <section class="innovation-section">
+    <div class="section-heading">
+      <p class="section-label">Projects & innovation</p>
+      <h3>What changed because of the work</h3>
+      <p class="section-subtitle">
+        A cleaner storytelling area focused on technical ideas, modernization, and concrete delivery impact.
+      </p>
+    </div>
+
+    <div class="innovation-grid">
+      @for (innovation of innovations; track innovation.title) {
+        <p-card class="innovation-card">
+          <div class="innovation-card__head">
+            <div>
+              <h4>{{ innovation.title }}</h4>
+              <p class="company">{{ innovation.context }}</p>
+            </div>
+          </div>
+
+          <p class="timeline-card__summary emphasis">{{ innovation.impact }}</p>
+
+          <ul class="bullet-list compact">
+            @for (detail of innovation.details; track detail) {
+              <li>{{ detail }}</li>
+            }
+          </ul>
+        </p-card>
+      }
+    </div>
+  </section>
+
+  <section class="content-grid">
+    <div class="content-main">
+      <div class="section-heading">
+        <p class="section-label">Experience</p>
+        <h3>Full chronology</h3>
+        <p class="section-subtitle">From current banking work back to the early logistics platform experience.</p>
+      </div>
+
+      <div class="timeline-list">
+        @for (experience of experiences; track experience.company + experience.period) {
+          <p-card class="timeline-card">
+            <div class="timeline-card__top">
+              <div>
+                <h4>{{ experience.role }}</h4>
+                <p class="company">{{ experience.company }}</p>
+              </div>
+              <p-tag severity="info" [value]="experience.period"></p-tag>
+            </div>
+
+            <p class="timeline-card__location">
+              <i class="pi pi-map-marker"></i>
+              {{ experience.location }}
+            </p>
+
+            <p class="timeline-card__summary">{{ experience.summary }}</p>
+
+            <ul class="bullet-list compact">
+              @for (highlight of experience.highlights; track highlight) {
+                <li>{{ highlight }}</li>
+              }
+            </ul>
+          </p-card>
+        }
+      </div>
+    </div>
+
+    <aside class="content-side">
+      <div class="section-heading">
+        <p class="section-label">Skills</p>
+        <h3>Organized by domain</h3>
+      </div>
+
+      <div class="skill-group-list">
+        @for (group of skillGroups; track group.title) {
+          <p-card class="skill-card">
+            <h4>{{ group.title }}</h4>
+            <div class="chip-grid compact-chips">
+              @for (item of group.items; track item) {
+                <p-chip [label]="item"></p-chip>
+              }
+            </div>
+          </p-card>
+        }
+      </div>
+
+      <div class="section-heading sidebar-heading">
+        <p class="section-label">Education</p>
+        <h3>Academic background</h3>
+      </div>
+
+      <div class="education-list">
+        @for (item of education; track item.school) {
+          <p-card class="education-card">
+            <div class="education-card__top">
+              <div>
+                <h4>{{ item.degree }}</h4>
+                <p class="company">{{ item.school }}</p>
+              </div>
+              <p-tag severity="contrast" [value]="item.period"></p-tag>
+            </div>
+            <p class="timeline-card__location"><i class="pi pi-map-marker"></i>{{ item.location }}</p>
+            <p class="timeline-card__summary">{{ item.details }}</p>
+          </p-card>
+        }
+      </div>
+
+      <div class="section-heading sidebar-heading">
+        <p class="section-label">Certifications</p>
+        <h3>Validated credentials</h3>
+      </div>
+
+      <div class="education-list">
+        @for (cert of certifications; track cert.title) {
+          <p-card class="education-card">
+            <h4>{{ cert.title }}</h4>
+            <p class="company">{{ cert.issuer }}</p>
+          </p-card>
+        }
+      </div>
+
+      <div class="section-heading sidebar-heading">
+        <p class="section-label">Languages</p>
+        <h3>Working fluency</h3>
+      </div>
+
+      <div class="language-list">
+        @for (language of languages; track language.name) {
+          <div class="language-item">
+            <span>{{ language.name }}</span>
+            <p-tag severity="info" [value]="language.level"></p-tag>
+          </div>
+        }
+      </div>
+    </aside>
+  </section>
+</div>
